@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { 
@@ -16,7 +15,6 @@ import { Module } from '@/components/learning/ModuleCard';
 import LessonContent, { Lesson } from '@/components/learning/LessonContent';
 import { patientPrivacyLessons } from '@/components/learning/LessonData';
 
-// Mock module data
 const modules: Record<string, Module> = {
   '1': {
     id: '1',
@@ -60,7 +58,6 @@ const modules: Record<string, Module> = {
   }
 };
 
-// Module lessons mapping
 const moduleLessons: Record<string, Lesson[]> = {
   '3': patientPrivacyLessons
 };
@@ -81,11 +78,9 @@ const ModuleDetails = () => {
       if (moduleData) {
         setModule(moduleData);
         
-        // Get lessons for this module
         const moduleLessonData = moduleLessons[id] || [];
         setLessons(moduleLessonData);
         
-        // Reset completed lessons when module changes
         setCompletedLessons(new Set());
       }
     }
@@ -94,23 +89,19 @@ const ModuleDetails = () => {
   const handleLessonComplete = () => {
     if (!lessons[currentLessonIndex]) return;
     
-    // Mark lesson as completed
     const newCompletedLessons = new Set(completedLessons);
     newCompletedLessons.add(lessons[currentLessonIndex].id);
     setCompletedLessons(newCompletedLessons);
     
-    // Show toast
     toast({
       title: "Lesson Completed!",
       description: `You've completed: ${lessons[currentLessonIndex].title}`,
       variant: "success"
     });
     
-    // Move to next lesson if available
     if (currentLessonIndex < lessons.length - 1) {
       setCurrentLessonIndex(currentLessonIndex + 1);
     } else {
-      // All lessons completed
       if (newCompletedLessons.size === lessons.length && lessons.length > 0) {
         toast({
           title: "Module Completed!",
@@ -137,7 +128,6 @@ const ModuleDetails = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header */}
       <div className="flex items-center gap-2">
         <Button variant="ghost" size="icon" onClick={() => navigate('/learning')}>
           <ArrowLeft className="h-4 w-4" />
@@ -145,7 +135,6 @@ const ModuleDetails = () => {
         <h1 className="text-2xl font-bold">{module.title}</h1>
       </div>
 
-      {/* Module info banner */}
       <Card className="overflow-hidden">
         <div className="grid grid-cols-1 lg:grid-cols-3">
           <div className="col-span-2 p-6">
@@ -188,7 +177,6 @@ const ModuleDetails = () => {
         </div>
       </Card>
 
-      {/* Module content */}
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
