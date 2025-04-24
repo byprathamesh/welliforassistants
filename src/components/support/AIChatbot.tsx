@@ -1,9 +1,9 @@
-
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Send, User, Bot } from "lucide-react";
+import { Send, User, Bot, Loader2 } from "lucide-react";
 import { useToast } from '@/hooks/use-toast';
+import { Card } from "@/components/ui/card";
 
 interface Message {
   id: number;
@@ -17,25 +17,21 @@ const initialMessages: Message[] = [
   {
     id: 1,
     sender: 'bot',
-    text: "नमस्ते! Hi there! I'm Welli Assistant. How can I help you today?",
+    text: "Hello! I'm your AI healthcare assistant. I can help you with:\n\n• Scheduling appointments\n• Finding healthcare providers\n• Answering medical questions\n• Managing prescriptions\n• Providing health tips\n\nHow can I assist you today?",
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 ];
 
-// Sample responses for common questions with Indian context
+// Enhanced responses with more context and helpful information
 const botResponses: Record<string, string> = {
-  "payment": "Payments are processed weekly, with earnings from the previous week deposited every Monday. You can receive payments via UPI, bank transfer or Paytm wallet. View your pending and processed payments in the Earnings section.",
-  "emergency": "In case of a medical emergency, call 108 immediately. Stay with the patient until emergency services arrive, providing any appropriate first aid within your scope of practice.",
-  "visits": "Visits are assigned based on your location within cities like Delhi, Mumbai, and Bangalore. You can pick up additional visits from the 'Available Visits' section in your dashboard.",
-  "equipment": "Each visit will specify the required equipment in the visit details. You should always have basic items like gloves, hand sanitizer, a stethoscope, and a blood pressure monitor.",
-  "training": "Complete all required modules in the Learning Hub to receive your certification. Each module includes videos, text lessons, and quizzes on healthcare practices in India.",
-  "help": "You can reach our support team through chat, email at support@welli.in, or call +91 (011) 2345-6789 during business hours (Mon-Sat, 9am-6pm IST).",
-  "pay": "Your pay is calculated based on visit type, distance traveled, and any special requirements. Bonuses are available for urgent visits, remote locations like Ladakh, and excellent patient feedback.",
-  "schedule": "You can set your availability in the Settings page. The system will only assign you visits during your available hours, and you can set preferences for regions within Delhi, Mumbai, Kolkata, or other metros.",
-  "cancel": "If you need to cancel a visit, please do so at least 4 hours in advance. Last-minute cancellations may affect your reliability score and future assignments.",
-  "patient": "Always introduce yourself upon arrival, verify the patient's identity, and explain the procedures you'll be performing. Remember to respect local customs and privacy norms.",
-  "feedback": "Patients can rate their experience after each visit. High ratings contribute to your performance score and make you eligible for bonuses and preferred routes.",
-  "app": "The Welli app helps you manage your visits throughout India, track earnings, complete training, and communicate with support. Make sure to keep it updated for the best experience.",
+  "appointment": "I can help you schedule an appointment. Please provide:\n1. Preferred date and time\n2. Type of healthcare provider needed\n3. Any specific requirements or concerns\n\nI'll find the best available options for you.",
+  "provider": "I can help you find healthcare providers based on:\n• Your location\n• Specialization needed\n• Insurance coverage\n• Availability\n\nWould you like to search for a specific type of provider?",
+  "prescription": "For prescription management, I can:\n• Help you refill medications\n• Set up medication reminders\n• Track your prescriptions\n• Connect you with pharmacies\n\nWhat would you like to do with your prescriptions?",
+  "emergency": "For medical emergencies:\n1. Call emergency services immediately\n2. Stay with the patient\n3. Provide first aid if trained\n4. Follow emergency protocols\n\nWould you like me to connect you with emergency services?",
+  "insurance": "I can help you with insurance-related queries about:\n• Coverage details\n• Claims processing\n• Network providers\n• Policy information\n\nWhat specific insurance information do you need?",
+  "records": "For health records, I can help you:\n• Access your medical history\n• Share records with providers\n• Update personal information\n• Track health metrics\n\nWhat would you like to do with your health records?",
+  "billing": "For billing and payments:\n• View outstanding bills\n• Make payments\n• Set up payment plans\n• Review insurance claims\n\nWhat billing assistance do you need?",
+  "general": "I can provide general health information about:\n• Common conditions\n• Preventive care\n• Wellness tips\n• Health resources\n\nWhat health information are you looking for?",
 };
 
 const AIChatbot = () => {
@@ -43,6 +39,15 @@ const AIChatbot = () => {
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const { toast } = useToast();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
@@ -59,41 +64,30 @@ const AIChatbot = () => {
     setInputText("");
     setIsTyping(true);
 
-    // Simulate bot thinking
+    // Simulate AI processing
     setTimeout(() => {
-      // Generate bot response based on keywords in user message
-      let botResponse = "I'm not sure I understand. Could you rephrase your question? You can ask me about payments, emergency procedures, visits, required equipment, training, scheduling, cancellations, patient interactions, feedback, or general help.";
-      
       const userMessageLower = inputText.toLowerCase();
+      let botResponse = "I'm here to help with your healthcare needs. You can ask me about:\n\n• Appointments\n• Finding providers\n• Prescriptions\n• Insurance\n• Health records\n• Billing\n• General health information\n\nWhat would you like to know more about?";
       
-      // Check for keywords and set appropriate response
-      if (userMessageLower.includes("payment") || userMessageLower.includes("money") || userMessageLower.includes("paid") || userMessageLower.includes("earn") || userMessageLower.includes("upi") || userMessageLower.includes("paytm")) {
-        botResponse = botResponses.payment;
-      } else if (userMessageLower.includes("emergency") || userMessageLower.includes("urgent") || userMessageLower.includes("108")) {
+      // Enhanced keyword matching
+      if (userMessageLower.includes("appointment") || userMessageLower.includes("schedule") || userMessageLower.includes("book")) {
+        botResponse = botResponses.appointment;
+      } else if (userMessageLower.includes("provider") || userMessageLower.includes("doctor") || userMessageLower.includes("specialist")) {
+        botResponse = botResponses.provider;
+      } else if (userMessageLower.includes("prescription") || userMessageLower.includes("medication") || userMessageLower.includes("drug")) {
+        botResponse = botResponses.prescription;
+      } else if (userMessageLower.includes("emergency") || userMessageLower.includes("urgent") || userMessageLower.includes("911")) {
         botResponse = botResponses.emergency;
-      } else if (userMessageLower.includes("visit") || userMessageLower.includes("assign") || userMessageLower.includes("schedule")) {
-        botResponse = botResponses.visits;
-      } else if (userMessageLower.includes("equipment") || userMessageLower.includes("tool") || userMessageLower.includes("bring")) {
-        botResponse = botResponses.equipment;
-      } else if (userMessageLower.includes("train") || userMessageLower.includes("learn") || userMessageLower.includes("module")) {
-        botResponse = botResponses.training;
-      } else if (userMessageLower.includes("help") || userMessageLower.includes("support") || userMessageLower.includes("contact")) {
-        botResponse = botResponses.help;
-      } else if (userMessageLower.includes("pay") || userMessageLower.includes("salary") || userMessageLower.includes("wage") || userMessageLower.includes("rupee")) {
-        botResponse = botResponses.pay;
-      } else if (userMessageLower.includes("schedule") || userMessageLower.includes("availability") || userMessageLower.includes("time")) {
-        botResponse = botResponses.schedule;
-      } else if (userMessageLower.includes("cancel") || userMessageLower.includes("reschedule")) {
-        botResponse = botResponses.cancel;
-      } else if (userMessageLower.includes("patient") || userMessageLower.includes("client")) {
-        botResponse = botResponses.patient;
-      } else if (userMessageLower.includes("feedback") || userMessageLower.includes("rating") || userMessageLower.includes("review")) {
-        botResponse = botResponses.feedback;
-      } else if (userMessageLower.includes("app") || userMessageLower.includes("application") || userMessageLower.includes("welli")) {
-        botResponse = botResponses.app;
+      } else if (userMessageLower.includes("insurance") || userMessageLower.includes("coverage") || userMessageLower.includes("claim")) {
+        botResponse = botResponses.insurance;
+      } else if (userMessageLower.includes("record") || userMessageLower.includes("history") || userMessageLower.includes("medical")) {
+        botResponse = botResponses.records;
+      } else if (userMessageLower.includes("bill") || userMessageLower.includes("payment") || userMessageLower.includes("cost")) {
+        botResponse = botResponses.billing;
+      } else if (userMessageLower.includes("health") || userMessageLower.includes("wellness") || userMessageLower.includes("care")) {
+        botResponse = botResponses.general;
       }
       
-      // Add bot response
       const botMessage: Message = {
         id: messages.length + 2,
         sender: 'bot',
@@ -104,24 +98,23 @@ const AIChatbot = () => {
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
       
-      // Show toast notification
       toast({
-        title: "New Message",
-        description: "Welli Assistant has responded to your query",
-        variant: "success",
+        title: "AI Response",
+        description: "Your healthcare assistant has responded",
+        variant: "default",
       });
-    }, 1000);
+    }, 1500);
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex items-center p-3 border-b">
-        <div className="w-8 h-8 rounded-full bg-welli-accent flex items-center justify-center text-white font-bold mr-2">
-          W
+    <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto">
+      <div className="flex items-center p-4 border-b bg-primary/5">
+        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold mr-3">
+          <Bot className="h-5 w-5" />
         </div>
         <div>
-          <h3 className="font-medium">Welli Assistant</h3>
-          <p className="text-xs text-welli-textSecondary">AI Chatbot</p>
+          <h3 className="font-semibold text-lg">Healthcare Assistant</h3>
+          <p className="text-sm text-muted-foreground">AI-powered support</p>
         </div>
       </div>
       
@@ -132,28 +125,23 @@ const AIChatbot = () => {
             className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             <div 
-              className={`max-w-[80%] p-3 rounded-lg flex ${
+              className={`max-w-[85%] p-3 rounded-lg ${
                 message.sender === 'user' 
-                  ? 'bg-welli-accent text-white' 
-                  : 'bg-gray-100'
+                  ? 'bg-primary text-primary-foreground' 
+                  : 'bg-muted'
               }`}
             >
               {message.sender === 'bot' && (
-                <div className="w-6 h-6 rounded-full bg-welli-accent flex items-center justify-center text-white font-bold mr-2 flex-shrink-0">
-                  W
+                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold mb-2">
+                  <Bot className="h-4 w-4" />
                 </div>
               )}
-              {message.sender === 'user' && (
-                <div className="w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center mr-2 flex-shrink-0">
-                  <User className="h-3 w-3 text-gray-700" />
-                </div>
-              )}
-              <div>
+              <div className="whitespace-pre-line">
                 <p className="text-sm">{message.text}</p>
-                <p className={`text-xs mt-1 ${
+                <p className={`text-xs mt-2 ${
                   message.sender === 'user' 
-                    ? 'text-white/70' 
-                    : 'text-welli-textSecondary'
+                    ? 'text-primary-foreground/70' 
+                    : 'text-muted-foreground'
                 }`}>
                   {message.time}
                 </p>
@@ -164,38 +152,36 @@ const AIChatbot = () => {
         
         {isTyping && (
           <div className="flex justify-start">
-            <div className="bg-gray-100 p-3 rounded-lg flex">
-              <div className="w-6 h-6 rounded-full bg-welli-accent flex items-center justify-center text-white font-bold mr-2">
-                W
+            <div className="bg-muted p-3 rounded-lg flex items-center">
+              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground mr-2">
+                <Bot className="h-4 w-4" />
               </div>
-              <div className="flex space-x-1 items-center">
-                <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{animationDelay: '0ms'}} />
-                <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{animationDelay: '200ms'}} />
-                <div className="w-2 h-2 bg-gray-300 rounded-full animate-bounce" style={{animationDelay: '400ms'}} />
-              </div>
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
             </div>
           </div>
         )}
+        <div ref={messagesEndRef} />
       </div>
       
-      <div className="p-3 border-t flex gap-2">
-        <Input 
-          placeholder="Type your question..." 
-          value={inputText}
-          onChange={e => setInputText(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
-          className="focus-visible:ring-welli-accent"
-        />
-        <Button 
-          size="icon" 
-          onClick={handleSendMessage} 
-          disabled={isTyping || !inputText.trim()}
-          className="bg-welli-accent hover:bg-welli-accent/90"
-        >
-          <Send className="h-4 w-4" />
-        </Button>
+      <div className="p-4 border-t bg-background">
+        <div className="flex gap-2">
+          <Input 
+            placeholder="Type your healthcare question..." 
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
+            className="flex-1"
+          />
+          <Button 
+            size="icon" 
+            onClick={handleSendMessage} 
+            disabled={isTyping || !inputText.trim()}
+          >
+            <Send className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
