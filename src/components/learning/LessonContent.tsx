@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -48,7 +47,6 @@ const LessonContent = ({ lesson, onComplete }: LessonContentProps) => {
       toast({
         title: "Lesson Completed",
         description: `You've completed the lesson: ${lesson.title}`,
-        variant: "success"
       });
       onComplete();
     }
@@ -77,7 +75,6 @@ const LessonContent = ({ lesson, onComplete }: LessonContentProps) => {
       toast({
         title: "Quiz Completed",
         description: "All answers are correct! You can proceed to the next section.",
-        variant: "success"
       });
     } else {
       toast({
@@ -217,7 +214,7 @@ const LessonContent = ({ lesson, onComplete }: LessonContentProps) => {
         <Button 
           onClick={handleNext}
           disabled={currentSection.type === 'quiz' && !isQuizCompleted()}
-          className="flex items-center"
+          className="flex items-center bg-welli-accent hover:bg-welli-accent/90"
         >
           {currentSectionIndex === lesson.sections.length - 1 ? "Complete Lesson" : "Next"} 
           <ArrowRight className="h-4 w-4 ml-1" />

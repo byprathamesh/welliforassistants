@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -83,7 +82,6 @@ const Dashboard = () => {
     toast({
       title: "Visit Accepted",
       description: "The visit has been added to your schedule.",
-      variant: "success"
     });
   };
 
@@ -95,7 +93,7 @@ const Dashboard = () => {
           <Button asChild variant="outline">
             <Link to="/visits">All Visits</Link>
           </Button>
-          <Button asChild>
+          <Button asChild className="bg-welli-accent hover:bg-welli-accent/90">
             <Link to="/earnings">View Earnings</Link>
           </Button>
         </div>
@@ -114,7 +112,7 @@ const Dashboard = () => {
       </Alert>
 
       {/* Quick Actions Bar */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer">
           <CardContent className="p-4 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-welli-accent flex items-center justify-center mb-2 text-white">
