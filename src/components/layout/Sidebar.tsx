@@ -1,9 +1,10 @@
 
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Home, Calendar, BadgeDollarSign, BookOpen, Settings, MessageSquare, HelpCircle, Menu, X, Navigation, CheckCircle, MapPin } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, Calendar, BadgeDollarSign, BookOpen, Settings, MessageSquare, HelpCircle, Menu, X, Navigation, CheckCircle, MapPin, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface SidebarLink {
   title: string;
@@ -29,6 +30,18 @@ const quickActionLinks: SidebarLink[] = [
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleAIChatClick = () => {
+    navigate('/support');
+    // We'll use a timeout to allow the page to load before scrolling to the AI chatbot
+    setTimeout(() => {
+      const chatbotElement = document.querySelector('[data-ai-chatbot]');
+      if (chatbotElement) {
+        chatbotElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
 
   return (
     <>
@@ -111,7 +124,7 @@ const Sidebar = () => {
           </div>
         </nav>
 
-        {/* Help Section */}
+        {/* Help Section with AI Chatbot Access */}
         <div className="p-4 border-t">
           <Link
             to="/support"
@@ -120,6 +133,20 @@ const Sidebar = () => {
             <HelpCircle className="h-5 w-5" />
             <span>Help Center</span>
           </Link>
+          
+          {/* AI Chatbot Access Button */}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={handleAIChatClick}
+                className="flex items-center justify-center w-full mt-3 p-2 rounded-md text-white bg-welli-accent hover:bg-welli-accent/90 transition-colors"
+              >
+                <Bot className="h-5 w-5 mr-2" />
+                <span>Welli Assistant</span>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>Access AI Chatbot</TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </>

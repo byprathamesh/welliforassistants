@@ -12,29 +12,36 @@ interface EarningsSummaryProps {
 
 const EarningsSummary = ({ today, thisWeek, thisMonth, changePercentage }: EarningsSummaryProps) => {
   const isPositiveChange = changePercentage >= 0;
+  
+  // Function to format currency in Indian Rupees
+  const formatCurrency = (amount: number) => {
+    return `₹${amount.toLocaleString('en-IN')}`;
+  };
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <Card className="overflow-hidden border-welli-accent/20">
+      <CardHeader className="flex flex-row items-center justify-between pb-2 bg-gradient-to-r from-welli-main/10 to-welli-accent/10">
         <CardTitle className="text-lg font-semibold">Earnings Summary</CardTitle>
-        <BadgeDollarSign className="h-5 w-5 text-welli-accent" />
+        <div className="w-8 h-8 rounded-full bg-welli-accent/20 flex items-center justify-center">
+          <BadgeDollarSign className="h-5 w-5 text-welli-accent" />
+        </div>
       </CardHeader>
       
-      <CardContent>
+      <CardContent className="pt-4">
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-1">
             <p className="text-xs text-welli-textSecondary">Today</p>
-            <p className="text-2xl font-semibold">${today}</p>
+            <p className="text-2xl font-semibold">{formatCurrency(today)}</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-xs text-welli-textSecondary">This Week</p>
-            <p className="text-2xl font-semibold">${thisWeek}</p>
+            <p className="text-2xl font-semibold">{formatCurrency(thisWeek)}</p>
           </div>
           
           <div className="space-y-1">
             <p className="text-xs text-welli-textSecondary">This Month</p>
-            <p className="text-2xl font-semibold">${thisMonth}</p>
+            <p className="text-2xl font-semibold">{formatCurrency(thisMonth)}</p>
           </div>
         </div>
         

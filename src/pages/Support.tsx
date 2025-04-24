@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { 
   Card, CardContent, CardHeader, CardTitle, CardDescription 
@@ -310,7 +309,7 @@ const Support = () => {
           </Card>
           
           {/* AI Chatbot */}
-          <Card className="mt-6 overflow-hidden">
+          <Card className="mt-6 overflow-hidden" data-ai-chatbot>
             <CardHeader className="border-b px-4 py-3">
               <CardTitle className="text-base flex items-center justify-between">
                 <div className="flex items-center gap-2">
