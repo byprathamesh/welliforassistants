@@ -1,14 +1,44 @@
-# Home Health Connect
+# Welli - Healthcare Provider Platform
+
+## IMPORTANT NOTICE
+© 2024 Prathamesh. All Rights Reserved.
+
+This project and its contents are protected by copyright and intellectual property laws. This is an original concept and implementation by Prathamesh. Any unauthorized copying, modification, distribution, or use of this code, design, or concept is strictly prohibited.
+
+## Proprietary Notice
+- The Welli platform, including its design, functionality, and AI implementation, is an original creation.
+- The floating AI assistant concept and implementation are proprietary features.
+- All source code, design elements, and business logic are confidential and proprietary.
+- No part of this project may be reproduced, distributed, or transmitted in any form without explicit written permission.
 
 ## Project Overview
-Home Health Connect is a modern healthcare platform that connects patients with healthcare providers. The platform features an AI-powered assistant to help users navigate healthcare services and get quick answers to their questions.
+Welli is an innovative healthcare platform that revolutionizes the connection between patients and healthcare providers. The platform features a unique AI-powered assistant with proprietary algorithms to help users navigate healthcare services efficiently.
 
-## Technologies Used
+## Key Features (Patent Pending)
+- Proprietary AI-powered chatbot with advanced healthcare context understanding
+- Innovative real-time healthcare provider matching system
+- Secure patient-provider communication platform
+- Smart appointment scheduling system
+- Digital health records management with enhanced privacy features
+
+## Technical Stack
 - Vite
 - TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
+
+## Legal Notice
+This software is proprietary and confidential. Unauthorized copying, modification, or reproduction of this software, its design, or its concepts, via any medium, is strictly prohibited. All rights, including but not limited to intellectual property rights, are reserved.
+
+## Contact
+For any inquiries regarding licensing, usage, or collaboration:
+- Author: Prathamesh
+- Project: Welli Healthcare Platform
+- Rights: All Rights Reserved
+
+## Disclaimer
+Any unauthorized use, reproduction, or distribution of this software or its concepts may result in legal action. This is a proprietary system with pending patents and registered intellectual property.
 
 ## Getting Started
 
