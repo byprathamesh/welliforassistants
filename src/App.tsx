@@ -12,6 +12,9 @@ import ModuleDetails from "./pages/ModuleDetails";
 import Settings from "./pages/Settings";
 import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
+import StartNavigation from "./pages/StartNavigation";
+import MarkVisitComplete from "./pages/MarkVisitComplete";
+import ViewAllLocations from "./pages/ViewAllLocations";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +32,9 @@ const App = () => (
           <Route path="/learning/:id" element={<ModuleDetails />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/support" element={<Support />} />
+          <Route path="/start-navigation" element={<StartNavigation />} />
+          <Route path="/mark-visit-complete" element={<MarkVisitComplete />} />
+          <Route path="/view-all-locations" element={<ViewAllLocations />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

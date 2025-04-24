@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, User, Bot } from "lucide-react";
+import { useToast } from '@/hooks/use-toast';
 
 interface Message {
   id: number;
@@ -16,31 +17,32 @@ const initialMessages: Message[] = [
   {
     id: 1,
     sender: 'bot',
-    text: "Hi there! I'm Welli Assistant. How can I help you today?",
+    text: "नमस्ते! Hi there! I'm Welli Assistant. How can I help you today?",
     time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
   }
 ];
 
-// Sample responses for common questions
+// Sample responses for common questions with Indian context
 const botResponses: Record<string, string> = {
-  "payment": "Payments are processed weekly, with earnings from the previous week deposited every Monday. You can view your pending and processed payments in the Earnings section.",
-  "emergency": "In case of a medical emergency, call 911 immediately. Stay with the patient until emergency services arrive, providing any appropriate first aid within your scope of practice.",
-  "visits": "Visits are assigned based on your location, availability, and qualifications. You can also pick up additional visits from the 'Available Visits' section in your dashboard.",
+  "payment": "Payments are processed weekly, with earnings from the previous week deposited every Monday. You can receive payments via UPI, bank transfer or Paytm wallet. View your pending and processed payments in the Earnings section.",
+  "emergency": "In case of a medical emergency, call 108 immediately. Stay with the patient until emergency services arrive, providing any appropriate first aid within your scope of practice.",
+  "visits": "Visits are assigned based on your location within cities like Delhi, Mumbai, and Bangalore. You can pick up additional visits from the 'Available Visits' section in your dashboard.",
   "equipment": "Each visit will specify the required equipment in the visit details. You should always have basic items like gloves, hand sanitizer, a stethoscope, and a blood pressure monitor.",
-  "training": "Complete all required modules in the Learning Hub to receive your certification. Each module includes videos, text lessons, and quizzes.",
-  "help": "You can reach our support team through chat, email at support@welli.com, or call +1 (555) 123-4567 during business hours (Mon-Fri, 9am-6pm EST).",
-  "pay": "Your pay is calculated based on visit type, distance traveled, and any special requirements. Bonuses are available for urgent visits and excellent patient feedback.",
-  "schedule": "You can set your availability in the Settings page. The system will only assign you visits during your available hours.",
-  "cancel": "If you need to cancel a visit, please do so at least 4 hours in advance. Last-minute cancellations may affect your reliability score.",
-  "patient": "Always introduce yourself upon arrival, verify the patient's identity, and explain the procedures you'll be performing.",
-  "feedback": "Patients can rate their experience after each visit. High ratings contribute to your performance score and make you eligible for bonuses.",
-  "app": "The Welli app helps you manage your visits, track earnings, complete training, and communicate with support. Make sure to keep it updated for the best experience.",
+  "training": "Complete all required modules in the Learning Hub to receive your certification. Each module includes videos, text lessons, and quizzes on healthcare practices in India.",
+  "help": "You can reach our support team through chat, email at support@welli.in, or call +91 (011) 2345-6789 during business hours (Mon-Sat, 9am-6pm IST).",
+  "pay": "Your pay is calculated based on visit type, distance traveled, and any special requirements. Bonuses are available for urgent visits, remote locations like Ladakh, and excellent patient feedback.",
+  "schedule": "You can set your availability in the Settings page. The system will only assign you visits during your available hours, and you can set preferences for regions within Delhi, Mumbai, Kolkata, or other metros.",
+  "cancel": "If you need to cancel a visit, please do so at least 4 hours in advance. Last-minute cancellations may affect your reliability score and future assignments.",
+  "patient": "Always introduce yourself upon arrival, verify the patient's identity, and explain the procedures you'll be performing. Remember to respect local customs and privacy norms.",
+  "feedback": "Patients can rate their experience after each visit. High ratings contribute to your performance score and make you eligible for bonuses and preferred routes.",
+  "app": "The Welli app helps you manage your visits throughout India, track earnings, complete training, and communicate with support. Make sure to keep it updated for the best experience.",
 };
 
 const AIChatbot = () => {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const { toast } = useToast();
 
   const handleSendMessage = () => {
     if (!inputText.trim()) return;
@@ -65,9 +67,9 @@ const AIChatbot = () => {
       const userMessageLower = inputText.toLowerCase();
       
       // Check for keywords and set appropriate response
-      if (userMessageLower.includes("payment") || userMessageLower.includes("money") || userMessageLower.includes("paid") || userMessageLower.includes("earn")) {
+      if (userMessageLower.includes("payment") || userMessageLower.includes("money") || userMessageLower.includes("paid") || userMessageLower.includes("earn") || userMessageLower.includes("upi") || userMessageLower.includes("paytm")) {
         botResponse = botResponses.payment;
-      } else if (userMessageLower.includes("emergency") || userMessageLower.includes("urgent")) {
+      } else if (userMessageLower.includes("emergency") || userMessageLower.includes("urgent") || userMessageLower.includes("108")) {
         botResponse = botResponses.emergency;
       } else if (userMessageLower.includes("visit") || userMessageLower.includes("assign") || userMessageLower.includes("schedule")) {
         botResponse = botResponses.visits;
@@ -77,7 +79,7 @@ const AIChatbot = () => {
         botResponse = botResponses.training;
       } else if (userMessageLower.includes("help") || userMessageLower.includes("support") || userMessageLower.includes("contact")) {
         botResponse = botResponses.help;
-      } else if (userMessageLower.includes("pay") || userMessageLower.includes("salary") || userMessageLower.includes("wage")) {
+      } else if (userMessageLower.includes("pay") || userMessageLower.includes("salary") || userMessageLower.includes("wage") || userMessageLower.includes("rupee")) {
         botResponse = botResponses.pay;
       } else if (userMessageLower.includes("schedule") || userMessageLower.includes("availability") || userMessageLower.includes("time")) {
         botResponse = botResponses.schedule;
@@ -101,6 +103,13 @@ const AIChatbot = () => {
       
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
+      
+      // Show toast notification
+      toast({
+        title: "New Message",
+        description: "Welli Assistant has responded to your query",
+        variant: "success",
+      });
     }, 1000);
   };
 

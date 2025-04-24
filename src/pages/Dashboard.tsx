@@ -1,23 +1,24 @@
+
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { BadgeDollarSign, AlertTriangle, ArrowRight, Navigation, MapPin, CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
 
 import VisitCard, { Visit } from "@/components/dashboard/VisitCard";
 import EarningsSummary from "@/components/dashboard/EarningsSummary";
 import MapView from "@/components/dashboard/MapView";
 
-// Mock data
+// Mock data with Indian names and locations
 const visitsData: Visit[] = [
   {
     id: '1',
-    patientName: 'John Doe',
+    patientName: 'Rajesh Kumar',
     patientAge: 65,
-    address: '123 Main Street, Apt 4B, New York, NY 10001',
+    address: '42 Shyam Nagar, Delhi NCR, 110001',
     time: '9:00 AM',
     visitType: 'Blood Test',
     isUrgent: true,
@@ -25,18 +26,18 @@ const visitsData: Visit[] = [
   },
   {
     id: '2',
-    patientName: 'Jane Smith',
+    patientName: 'Priya Sharma',
     patientAge: 78,
-    address: '456 Park Avenue, New York, NY 10022',
+    address: '105 Andheri West, Mumbai, 400053',
     time: '11:30 AM',
     visitType: 'X-Ray',
     status: 'upcoming'
   },
   {
     id: '3',
-    patientName: 'Robert Johnson',
+    patientName: 'Vikram Mehta',
     patientAge: 72,
-    address: '789 Broadway, New York, NY 10003',
+    address: '78 Indiranagar, Bangalore, 560038',
     time: '2:15 PM',
     visitType: 'Vitals Check',
     status: 'upcoming'
@@ -46,18 +47,18 @@ const visitsData: Visit[] = [
 const availableVisits: Visit[] = [
   {
     id: '6',
-    patientName: 'Sarah Wilson',
+    patientName: 'Anita Desai',
     patientAge: 58,
-    address: '723 Hudson Street, New York, NY 10014',
+    address: '56 Banjara Hills, Hyderabad, 500034',
     time: '10:45 AM',
     visitType: 'Blood Pressure Check',
     status: 'upcoming'
   },
   {
     id: '7',
-    patientName: 'Michael Thomas',
+    patientName: 'Suresh Patel',
     patientAge: 82,
-    address: '150 E 42nd Street, New York, NY 10017',
+    address: '25 Salt Lake, Kolkata, 700091',
     time: '1:30 PM',
     visitType: 'Diabetes Screening',
     status: 'upcoming',
@@ -65,9 +66,9 @@ const availableVisits: Visit[] = [
   },
   {
     id: '8',
-    patientName: 'Emily Davis',
+    patientName: 'Meera Reddy',
     patientAge: 69,
-    address: '310 West 53rd Street, New York, NY 10019',
+    address: '15 Adyar, Chennai, 600020',
     time: '3:00 PM',
     visitType: 'Medication Review',
     status: 'upcoming'
@@ -77,11 +78,13 @@ const availableVisits: Visit[] = [
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("today");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleAcceptVisit = (visitId: string) => {
     toast({
       title: "Visit Accepted",
       description: "The visit has been added to your schedule.",
+      variant: "success",
     });
   };
 
@@ -113,7 +116,10 @@ const Dashboard = () => {
 
       {/* Quick Actions Bar */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer">
+        <Card 
+          className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer"
+          onClick={() => navigate('/start-navigation')}
+        >
           <CardContent className="p-4 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-welli-accent flex items-center justify-center mb-2 text-white">
               <Navigation className="h-6 w-6" />
@@ -125,19 +131,25 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer">
+        <Card 
+          className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer"
+          onClick={() => navigate('/mark-visit-complete')}
+        >
           <CardContent className="p-4 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-welli-main flex items-center justify-center mb-2 text-welli-textPrimary">
               <CheckCircle className="h-6 w-6" />
             </div>
             <h3 className="font-semibold">Mark Visit Complete</h3>
             <p className="text-xs text-welli-textSecondary mt-1">
-              Current: John Doe
+              Current: Rajesh Kumar
             </p>
           </CardContent>
         </Card>
 
-        <Card className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer">
+        <Card 
+          className="bg-welli-background hover:bg-welli-background/80 transition-colors cursor-pointer"
+          onClick={() => navigate('/view-all-locations')}
+        >
           <CardContent className="p-4 flex flex-col items-center text-center">
             <div className="w-12 h-12 rounded-full bg-welli-background border-2 border-welli-accent flex items-center justify-center mb-2">
               <MapPin className="h-6 w-6 text-welli-accent" />
@@ -221,7 +233,7 @@ const Dashboard = () => {
                         <Button 
                           variant="outline" 
                           className="w-full"
-                          onClick={() => handleAcceptVisit(visit.id)}
+                          onClick={() => navigate(`/visits/${visit.id}`)}
                         >
                           View Details
                         </Button>
@@ -243,9 +255,9 @@ const Dashboard = () => {
         {/* Earnings widget */}
         <div>
           <EarningsSummary 
-            today={125} 
-            thisWeek={675} 
-            thisMonth={2850} 
+            today={5250} 
+            thisWeek={32500} 
+            thisMonth={147500} 
             changePercentage={12.5} 
           />
           
@@ -281,7 +293,7 @@ const Dashboard = () => {
             <CardContent className="flex items-center justify-between p-4">
               <div>
                 <h3 className="font-semibold">Available for Withdrawal</h3>
-                <p className="text-2xl font-bold mt-1">$1,450</p>
+                <p className="text-2xl font-bold mt-1">₹72,500</p>
               </div>
               <Button variant="secondary" size="sm" className="whitespace-nowrap" asChild>
                 <Link to="/earnings#withdraw">

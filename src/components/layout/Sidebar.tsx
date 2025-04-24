@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Calendar, BadgeDollarSign, BookOpen, Settings, MessageSquare, HelpCircle, Menu, X } from 'lucide-react';
+import { Home, Calendar, BadgeDollarSign, BookOpen, Settings, MessageSquare, HelpCircle, Menu, X, Navigation, CheckCircle, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 
@@ -12,12 +12,18 @@ interface SidebarLink {
 }
 
 const sidebarLinks: SidebarLink[] = [
-  { title: 'Dashboard', icon: Home, path: '/' },
+  { title: 'Dashboard', icon: Home, path: '/dashboard' },
   { title: 'Visits', icon: Calendar, path: '/visits' },
   { title: 'Earnings', icon: BadgeDollarSign, path: '/earnings' },
   { title: 'Learning Hub', icon: BookOpen, path: '/learning' },
   { title: 'Settings', icon: Settings, path: '/settings' },
   { title: 'Support', icon: MessageSquare, path: '/support' },
+];
+
+const quickActionLinks: SidebarLink[] = [
+  { title: 'Start Navigation', icon: Navigation, path: '/start-navigation' },
+  { title: 'Mark Visit Complete', icon: CheckCircle, path: '/mark-visit-complete' },
+  { title: 'View All Locations', icon: MapPin, path: '/view-all-locations' },
 ];
 
 const Sidebar = () => {
@@ -74,12 +80,41 @@ const Sidebar = () => {
               );
             })}
           </ul>
+          
+          {/* Quick Actions Section */}
+          <div className="mt-8">
+            <p className="px-4 text-xs font-semibold text-welli-textSecondary uppercase tracking-wider mb-2">
+              Quick Actions
+            </p>
+            <ul className="space-y-1">
+              {quickActionLinks.map((link) => {
+                const isActive = location.pathname === link.path;
+                
+                return (
+                  <li key={link.title}>
+                    <Link
+                      to={link.path}
+                      className={cn(
+                        "flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-welli-accent text-white"
+                          : "text-welli-textSecondary hover:bg-welli-background"
+                      )}
+                    >
+                      <link.icon className="h-4 w-4" />
+                      <span>{link.title}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </nav>
 
         {/* Help Section */}
         <div className="p-4 border-t">
           <Link
-            to="/help"
+            to="/support"
             className="flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium text-welli-textSecondary hover:bg-welli-background transition-colors"
           >
             <HelpCircle className="h-5 w-5" />
