@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
+import AIChatbot from '@/components/support/AIChatbot';
 
 // FAQ data
 const faqs = [
@@ -49,43 +50,17 @@ const Support = () => {
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState("");
   const [messageText, setMessageText] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      sender: "system",
-      text: "Welcome to Welli support! How can we help you today?",
-      time: "10:30 AM"
-    }
-  ]);
 
   const handleSendMessage = () => {
     if (!messageText.trim()) return;
 
-    // Add user message
-    setMessages(prev => [...prev, {
-      id: prev.length + 1,
-      sender: "user",
-      text: messageText,
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    }]);
-
     // Clear input
     setMessageText("");
 
-    // Simulate reply after a delay
-    setTimeout(() => {
-      setMessages(prev => [...prev, {
-        id: prev.length + 1,
-        sender: "system",
-        text: "Thanks for reaching out! A support representative will respond to your message shortly. In the meantime, you can check our FAQ section for quick answers.",
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      }]);
-
-      toast({
-        title: "Message Sent",
-        description: "Our support team will respond shortly.",
-      });
-    }, 1000);
+    toast({
+      title: "Message Sent",
+      description: "Our support team will respond shortly.",
+    });
   };
 
   // Filter FAQs based on search query
@@ -318,21 +293,31 @@ const Support = () => {
                 <div className="space-y-3">
                   <Textarea 
                     placeholder="Describe your issue or question..." 
-                    className="min-h-[120px]"
+                    className="min-h-[100px]"
+                    value={messageText}
+                    onChange={e => setMessageText(e.target.value)}
                   />
-                  <Button className="w-full">Submit Request</Button>
+                  <Button 
+                    className="w-full"
+                    onClick={handleSendMessage}
+                    disabled={!messageText.trim()}
+                  >
+                    Submit Request
+                  </Button>
                 </div>
               </div>
             </CardContent>
           </Card>
           
-          {/* Live chat */}
-          <Card className="mt-6">
-            <CardHeader className="border-b">
-              <CardTitle className="flex items-center justify-between">
+          {/* AI Chatbot */}
+          <Card className="mt-6 overflow-hidden">
+            <CardHeader className="border-b px-4 py-3">
+              <CardTitle className="text-base flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <MessageSquare className="h-5 w-5" />
-                  <span>Live Chat</span>
+                  <div className="w-7 h-7 rounded-full bg-welli-accent flex items-center justify-center text-white font-bold">
+                    W
+                  </div>
+                  <span>Welli Assistant</span>
                 </div>
                 <Badge className="bg-green-100 text-green-800">
                   <div className="w-2 h-2 rounded-full bg-green-600 mr-1"></div>
@@ -340,45 +325,9 @@ const Support = () => {
                 </Badge>
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
-              <div className="h-72 overflow-y-auto p-4 space-y-3">
-                {messages.map(message => (
-                  <div 
-                    key={message.id} 
-                    className={`flex ${message.sender === 'user' ? 'justify-end' : ''}`}
-                  >
-                    <div 
-                      className={`max-w-[80%] p-3 rounded-lg ${
-                        message.sender === 'user' 
-                          ? 'bg-welli-accent text-white' 
-                          : 'bg-gray-100'
-                      }`}
-                    >
-                      <p className="text-sm">{message.text}</p>
-                      <p className={`text-xs mt-1 ${
-                        message.sender === 'user' 
-                          ? 'text-white/70' 
-                          : 'text-welli-textSecondary'
-                      }`}>
-                        {message.time}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="p-3 border-t flex gap-2">
-                <Input 
-                  placeholder="Type your message..." 
-                  value={messageText}
-                  onChange={e => setMessageText(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
-                />
-                <Button size="icon" onClick={handleSendMessage}>
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
+            <div className="h-96">
+              <AIChatbot />
+            </div>
           </Card>
           
           {/* Support status */}

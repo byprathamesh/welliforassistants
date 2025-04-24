@@ -1,10 +1,8 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
+import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import Visits from "./pages/Visits";
 import VisitDetails from "./pages/VisitDetails";
@@ -19,25 +17,22 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/visits" element={<Visits />} />
-            <Route path="/visits/:id" element={<VisitDetails />} />
-            <Route path="/earnings" element={<Earnings />} />
-            <Route path="/learning" element={<LearningHub />} />
-            <Route path="/learning/:id" element={<ModuleDetails />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/support" element={<Support />} />
-          </Route>
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route element={<Layout />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/visits" element={<Visits />} />
+          <Route path="/visits/:id" element={<VisitDetails />} />
+          <Route path="/earnings" element={<Earnings />} />
+          <Route path="/learning" element={<LearningHub />} />
+          <Route path="/learning/:id" element={<ModuleDetails />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/support" element={<Support />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   </QueryClientProvider>
 );
 
