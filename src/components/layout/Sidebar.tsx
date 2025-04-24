@@ -1,7 +1,6 @@
-
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Calendar, BadgeDollarSign, BookOpen, Settings, MessageSquare, HelpCircle, Menu, X, Navigation, CheckCircle, MapPin, Bot } from 'lucide-react';
+import { Home, Calendar, BadgeDollarSign, BookOpen, Settings, MessageSquare, Menu, X, Navigation, CheckCircle, MapPin, Bot } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -34,7 +33,6 @@ const Sidebar = () => {
 
   const handleAIChatClick = () => {
     navigate('/support');
-    // We'll use a timeout to allow the page to load before scrolling to the AI chatbot
     setTimeout(() => {
       const chatbotElement = document.querySelector('[data-ai-chatbot]');
       if (chatbotElement) {
@@ -75,6 +73,35 @@ const Sidebar = () => {
             {sidebarLinks.map((link) => {
               const isActive = location.pathname === link.path;
               
+              if (link.title === 'Support') {
+                return (
+                  <li key={link.title} className="space-y-2">
+                    <Link
+                      to={link.path}
+                      className={cn(
+                        "flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors",
+                        isActive
+                          ? "bg-welli-main text-white"
+                          : "text-welli-textSecondary hover:bg-welli-background"
+                      )}
+                    >
+                      <link.icon className="h-5 w-5" />
+                      <span>{link.title}</span>
+                    </Link>
+                    {/* Welli Assistant under Support */}
+                    <button
+                      onClick={handleAIChatClick}
+                      className="flex items-center gap-3 px-4 py-2 w-full rounded-md text-sm font-medium text-welli-textSecondary hover:bg-welli-background transition-colors ml-4"
+                    >
+                      <div className="w-5 h-5 rounded-full bg-welli-main flex items-center justify-center">
+                        <span className="font-bold text-white text-xs">W</span>
+                      </div>
+                      <span>Welli Assistant</span>
+                    </button>
+                  </li>
+                );
+              }
+              
               return (
                 <li key={link.title}>
                   <Link
@@ -95,7 +122,7 @@ const Sidebar = () => {
           </ul>
           
           {/* Quick Actions Section */}
-          <div className="mt-8">
+          <div className="mt-6">
             <p className="px-4 text-xs font-semibold text-welli-textSecondary uppercase tracking-wider mb-2">
               Quick Actions
             </p>
@@ -123,31 +150,6 @@ const Sidebar = () => {
             </ul>
           </div>
         </nav>
-
-        {/* Help Section with AI Chatbot Access */}
-        <div className="p-4 border-t">
-          <Link
-            to="/support"
-            className="flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium text-welli-textSecondary hover:bg-welli-background transition-colors"
-          >
-            <HelpCircle className="h-5 w-5" />
-            <span>Help Center</span>
-          </Link>
-          
-          {/* AI Chatbot Access Button */}
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={handleAIChatClick}
-                className="flex items-center justify-center w-full mt-3 p-2 rounded-md text-white bg-welli-accent hover:bg-welli-accent/90 transition-colors"
-              >
-                <Bot className="h-5 w-5 mr-2" />
-                <span>Welli Assistant</span>
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>Access AI Chatbot</TooltipContent>
-          </Tooltip>
-        </div>
       </div>
     </>
   );
