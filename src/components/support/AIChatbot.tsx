@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Send, User, Bot, Loader2 } from "lucide-react";
 import { useToast } from '@/hooks/use-toast';
-import { Card } from "@/components/ui/card";
 
 interface Message {
   id: number;
@@ -97,27 +96,11 @@ const AIChatbot = () => {
       
       setMessages(prev => [...prev, botMessage]);
       setIsTyping(false);
-      
-      toast({
-        title: "AI Response",
-        description: "Your healthcare assistant has responded",
-        variant: "default",
-      });
     }, 1500);
   };
 
   return (
-    <Card className="flex flex-col h-[600px] w-full max-w-2xl mx-auto">
-      <div className="flex items-center p-4 border-b bg-primary/5">
-        <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold mr-3">
-          <Bot className="h-5 w-5" />
-        </div>
-        <div>
-          <h3 className="font-semibold text-lg">Healthcare Assistant</h3>
-          <p className="text-sm text-muted-foreground">AI-powered support</p>
-        </div>
-      </div>
-      
+    <div className="flex flex-col h-[calc(600px-57px)]">
       <div className="flex-1 overflow-auto p-4 space-y-4">
         {messages.map(message => (
           <div 
@@ -127,21 +110,21 @@ const AIChatbot = () => {
             <div 
               className={`max-w-[85%] p-3 rounded-lg ${
                 message.sender === 'user' 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted'
+                  ? 'bg-welli-main text-white' 
+                  : 'bg-gray-100'
               }`}
             >
               {message.sender === 'bot' && (
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold mb-2">
-                  <Bot className="h-4 w-4" />
+                <div className="w-6 h-6 rounded-full bg-welli-main flex items-center justify-center text-white mb-2">
+                  <Bot className="h-3 w-3" />
                 </div>
               )}
               <div className="whitespace-pre-line">
                 <p className="text-sm">{message.text}</p>
                 <p className={`text-xs mt-2 ${
                   message.sender === 'user' 
-                    ? 'text-primary-foreground/70' 
-                    : 'text-muted-foreground'
+                    ? 'text-white/70' 
+                    : 'text-gray-500'
                 }`}>
                   {message.time}
                 </p>
@@ -152,18 +135,18 @@ const AIChatbot = () => {
         
         {isTyping && (
           <div className="flex justify-start">
-            <div className="bg-muted p-3 rounded-lg flex items-center">
-              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground mr-2">
-                <Bot className="h-4 w-4" />
+            <div className="bg-gray-100 p-3 rounded-lg flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-welli-main flex items-center justify-center text-white">
+                <Bot className="h-3 w-3" />
               </div>
-              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              <Loader2 className="h-4 w-4 animate-spin text-gray-500" />
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
       
-      <div className="p-4 border-t bg-background">
+      <div className="p-4 border-t bg-white">
         <div className="flex gap-2">
           <Input 
             placeholder="Type your healthcare question..." 
@@ -181,7 +164,7 @@ const AIChatbot = () => {
           </Button>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

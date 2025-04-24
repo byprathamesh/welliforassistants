@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Badge } from '@/components/ui/badge';
-import AIChatbot from '@/components/support/AIChatbot';
 
 // FAQ data
 const faqs = [
@@ -77,7 +76,7 @@ const Support = () => {
       </div>
 
       {/* Hero section */}
-      <Card className="bg-gradient-to-r from-welli-main/20 to-welli-accent/20">
+      <Card>
         <CardContent className="p-6 flex flex-col md:flex-row items-center gap-6">
           <div className="md:flex-1">
             <h2 className="text-xl font-semibold mb-2">How can we help you?</h2>
@@ -94,7 +93,7 @@ const Support = () => {
               />
             </div>
           </div>
-          <div className="md:flex-1 grid grid-cols-2 gap-4 w-full">
+          <div className="flex gap-4">
             <Card className="bg-white">
               <CardContent className="p-4 flex flex-col items-center text-center">
                 <div className="w-10 h-10 rounded-full bg-welli-background flex items-center justify-center mb-2">
@@ -122,7 +121,7 @@ const Support = () => {
       </Card>
 
       {/* Main content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-6">
         {/* Left column - FAQs */}
         <div className="lg:col-span-2">
           <Card>
@@ -248,9 +247,8 @@ const Support = () => {
           </Card>
         </div>
 
-        {/* Right column - Contact and chat */}
-        <div>
-          {/* Contact card */}
+        {/* Right column - Contact */}
+        <div className="space-y-6">
           <Card>
             <CardHeader>
               <CardTitle>Contact Support</CardTitle>
@@ -308,29 +306,8 @@ const Support = () => {
             </CardContent>
           </Card>
           
-          {/* AI Chatbot */}
-          <Card className="mt-6 overflow-hidden" data-ai-chatbot>
-            <CardHeader className="border-b px-4 py-3">
-              <CardTitle className="text-base flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-welli-accent flex items-center justify-center text-white font-bold">
-                    W
-                  </div>
-                  <span>Welli Assistant</span>
-                </div>
-                <Badge className="bg-green-100 text-green-800">
-                  <div className="w-2 h-2 rounded-full bg-green-600 mr-1"></div>
-                  <span>Online</span>
-                </Badge>
-              </CardTitle>
-            </CardHeader>
-            <div className="h-96">
-              <AIChatbot />
-            </div>
-          </Card>
-          
           {/* Support status */}
-          <Card className="mt-6">
+          <Card>
             <CardContent className="p-4">
               <div className="space-y-3">
                 <h3 className="font-medium">Support Status</h3>

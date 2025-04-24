@@ -1,4 +1,3 @@
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
@@ -15,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import StartNavigation from "./pages/StartNavigation";
 import MarkVisitComplete from "./pages/MarkVisitComplete";
 import ViewAllLocations from "./pages/ViewAllLocations";
+import FloatingChat from "./components/support/FloatingChat";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +38,7 @@ const App = () => (
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <FloatingChat />
     </BrowserRouter>
   </QueryClientProvider>
 );
