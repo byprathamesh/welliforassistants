@@ -1,7 +1,7 @@
 # Welli - Healthcare Provider Platform
 
 ## IMPORTANT NOTICE
-© 2024 Prathamesh. All Rights Reserved.
+© 2025 Prathamesh. All Rights Reserved.
 
 This project and its contents are protected by copyright and intellectual property laws. This is an original concept and implementation by Prathamesh. Any unauthorized copying, modification, distribution, or use of this code, design, or concept is strictly prohibited.
 
