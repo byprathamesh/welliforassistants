@@ -1,4 +1,3 @@
-
 import { BadgeDollarSign, TrendingUp, TrendingDown } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
@@ -13,9 +12,9 @@ interface EarningsSummaryProps {
 const EarningsSummary = ({ today, thisWeek, thisMonth, changePercentage }: EarningsSummaryProps) => {
   const isPositiveChange = changePercentage >= 0;
   
-  // Function to format currency in Indian Rupees
+  // Function to format currency in US Dollars
   const formatCurrency = (amount: number) => {
-    return `₹${amount.toLocaleString('en-IN')}`;
+    return `$${amount.toLocaleString('en-US')}`;
   };
 
   return (

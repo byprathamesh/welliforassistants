@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -293,7 +292,7 @@ const Dashboard = () => {
             <CardContent className="flex items-center justify-between p-4">
               <div>
                 <h3 className="font-semibold">Available for Withdrawal</h3>
-                <p className="text-2xl font-bold mt-1">₹72,500</p>
+                <p className="text-2xl font-bold mt-1">$72,500</p>
               </div>
               <Button variant="secondary" size="sm" className="whitespace-nowrap" asChild>
                 <Link to="/earnings#withdraw">
