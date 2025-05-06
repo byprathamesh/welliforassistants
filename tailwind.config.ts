@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,13 +62,15 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Welli custom colors
 				welli: {
-					background: '#F2FCE2',
-					main: '#9BE869',
-					accent: '#5CAD29',
-					textPrimary: '#2D3748',
-					textSecondary: '#4A5568',
+					"light-green": "#F2FCE2",
+					"green": "#9BE869",
+					"dark-green": "#5CAD29",
+					"pale-green": "#F2FCE2",
+					"off-white": "#FFFFFF",
+					"text-dark": "#2D3748",
+					"text-medium": "#4A5568",
+					"text-light": "#718096"
 				}
 			},
 			borderRadius: {
@@ -104,11 +105,39 @@ export default {
 						transform: 'translateY(0)'
 					}
 				},
+				'slide-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'translateX(-20px)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'translateX(0)'
+					}
+				},
+				'pulse-slow': {
+					'0%, 100%': {
+						opacity: '1',
+					},
+					'50%': {
+						opacity: '0.8',
+					},
+				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.3s ease-out',
+				'fade-in': 'fade-in 0.5s ease-out',
+				'slide-in': 'slide-in 0.5s ease-out',
+				'pulse-slow': 'pulse-slow 3s infinite'
+			},
+			fontFamily: {
+				'poppins': ['Poppins', 'sans-serif']
+			},
+			backgroundImage: {
+				'hero-pattern': 'linear-gradient(120deg, #E2FECB 0%, #9BE869 100%)',
+				'green-gradient': 'linear-gradient(90deg, #9BE869 0%, #5CAD29 100%)',
+				'light-gradient': 'linear-gradient(180deg, rgba(226,254,203,0.3) 0%, rgba(255,255,255,0) 100%)'
 			}
 		}
 	},
